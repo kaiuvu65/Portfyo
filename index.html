@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yunus | Web Tasarımcı</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #ff7e5f, #6a82fb);
+      color: #333;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+    .container {
+      width: 100%;
+      max-width: 800px;
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+    .profile-pic {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 15px;
+    }
+    h1 {
+      color: #007bff;
+      margin-bottom: 10px;
+    }
+    h2 {
+      margin-top: 30px;
+      color: #222;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 5px;
+    }
+    ul {
+      margin-top: 10px;
+      padding-left: 20px;
+    }
+    a {
+      color: #007bff;
+      text-decoration: none;
+      transition: transform 0.2s;
+    }
+    a:hover {
+      transform: scale(1.05);
+      text-decoration: underline;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.3s, transform 0.2s;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+    .portfolio-item {
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #f0f4f8;
+      border-radius: 8px;
+    }
+    .contact-links {
+      margin-top: 20px;
+    }
+    .contact-links p {
+      margin: 10px 0;
+    }
+    form {
+      margin-top: 20px;
+    }
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+      resize: vertical;
+    }
+    .lang-switch {
+      text-align: right;
+      margin-bottom: 10px;
+    }
+    #yorumlar {
+      margin-top: 20px;
+    }
+    .yorum-kutu {
+      background: #f0f0f0;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+    #successBox {
+      display: none;
+      background-color: #d4edda;
+      color: #155724;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 10px;
+      border: 1px solid #c3e6cb;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="lang-switch">
+      <select onchange="window.location.href=this.value" style="padding: 6px; border-radius: 6px;">
+        <option value="index.html" selected>🇹🇷 Türkçe</option>
+        <option value="index-en.html">🇬🇧 English</option>
+      </select>
+    </div>
+
+    <img src="yunus.png" alt="Yunus" class="profile-pic">
+    <h1>👋 Merhaba, ben Yunus</h1>
+    <p>Uygun fiyata sade, modern ve mobil uyumlu web siteleri yapıyorum.</p>
+
+    <h2>🛠️ Hizmetlerim</h2>
+    <ul>
+      <li>Kişisel CV sitesi</li>
+      <li>Küçük işletme tanıtım sitesi</li>
+      <li>Link-in-bio sayfası</li>
+    </ul>
+
+    <h2>🖼️ Örnek Çalışmalarım</h2>
+    <div class="portfolio-item">
+      <strong>Link in Bio Sayfası</strong> – <a href="https://kaiuvu.github.io/yasir-link-bio/" target="_blank">Örneğe Git</a>
+    </div>
+    <div class="portfolio-item">
+      <strong>Örnek Basit Oyun Sitesi</strong> - <a href="https://kaiuvu.github.io/jump-survive/" target="_blank">Örneğe Git</a>
+    </div>
+
+    <h2>📞 İletişim</h2>
+    <div class="contact-links">
+      <p>📱 Telefon: <a href="tel:+905307687995">0530 768 79 95</a></p>
+      <p>📷 Instagram: <a href="https://instagram.com/_ynemrr" target="_blank">@_ynemrr</a></p>
+      <a class="btn" href="https://wa.me/905307687995">WhatsApp'tan Yaz</a>
+    </div>
+
+    <h2>💬 Ziyaretçi Yorumları</h2>
+    <form id="yorumForm">
+      <textarea name="yorum" placeholder="Yorumunuzu buraya yazın..." required></textarea>
+      <button type="submit" class="btn">Yorumu Gönder</button>
+    </form>
+    <div id="successBox">✅ Yorum başarıyla gönderildi!</div>
+    <div id="yorumlar"></div>
+  </div>
+
+  <script>
+    const sheetID = "1rOIFN6JP84voFi-nkEk0pCuX7OW8QTD4XHdWL_Aj-A4";
+    const sheetURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json&sheet=Sayfa1`;
+
+    fetch(sheetURL)
+      .then(res => res.text())
+      .then(data => {
+        const jsonData = JSON.parse(data.substr(47).slice(0, -2));
+        const rows = jsonData.table.rows;
+        let html = '<h3>🗒️ Son Yorumlar:</h3>';
+        rows.reverse().forEach(row => {
+          const yorum = row.c[0]?.v || "";
+          const tarih = new Date(row.c[1]?.v).toLocaleString("tr-TR");
+          html += `<div class="yorum-kutu">
+                     <strong>${tarih}</strong><br>${yorum}
+                   </div>`;
+        });
+        document.getElementById("yorumlar").innerHTML = html;
+      });
+
+    document.getElementById("yorumForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const yorum = this.yorum.value;
+      fetch("https://script.google.com/macros/s/AKfycbz39Uv4Vw12I6hSlWbUJjosd2xnaY95w7yjlC2H8XgxGmdpT-WT7UyfVGekgHXgl_WQGg/exec", {
+        method: "POST",
+        body: new URLSearchParams({ yorum })
+      }).then(() => {
+        document.getElementById("successBox").style.display = "block";
+        this.reset();
+      });
+    });
+  </script>
+</body>
+</html>
